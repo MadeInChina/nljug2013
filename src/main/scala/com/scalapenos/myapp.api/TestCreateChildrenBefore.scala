@@ -28,9 +28,9 @@ class ApiActor extends HttpServiceActor
 
 
 trait Routes extends HttpService
-                with ActorCreationSupport {
+                with ActorCreationSupport { this: Actor =>
 
-  val processJob = createChild(Props[ProcessJob], "job")
+  val processJob = context.actorOf(Props[ProcessJob], "job")
 
   def routes = {
     pathPrefix("api") {
