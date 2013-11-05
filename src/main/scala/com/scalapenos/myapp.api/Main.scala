@@ -1,4 +1,5 @@
-package com.scalapenos.myapp.api
+package com.scalapenos.myapp
+package api
 
 import akka.actor.ActorSystem
 import akka.io.IO

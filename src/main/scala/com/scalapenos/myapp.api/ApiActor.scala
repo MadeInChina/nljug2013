@@ -1,6 +1,11 @@
 package com.scalapenos.myapp.api
 
-import akka.actor.Actor
+import akka.actor._
+
+object ApiActor {
+  def props = Props[ApiActor]
+  def name = "api"
+}
 
 class ApiActor extends Actor {
 
