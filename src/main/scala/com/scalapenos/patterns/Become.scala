@@ -49,7 +49,7 @@ object AsyncJobsProcessing {
     def processJob(job: Job):Future[JobResult]
   }
 
-  def initSomeStuff: Future[Stuff] = Future.successful(new Stuff { def processJob(job:Job) = Future.successful(1)})
+  def initSomeStuff: Future[Stuff] = Future.successful(new Stuff { def processJob(job:Job) = Future.successful(JobResult(""))})
 }
 
 
