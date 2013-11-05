@@ -1,3 +1,6 @@
+
+
+
 package com.scalapenos.myapp.api
 
 import akka.io.IO
@@ -10,6 +13,9 @@ object Main {
   val api = system.actorOf(ApiActor.props, ApiActor.name)
 
   IO(Http) ! Http.Bind(listener = api,
-    interface = "0.0.0.0",
-    port = 8000)
+                       interface = "0.0.0.0",
+                       port = 8000)
 }
+
+
+
