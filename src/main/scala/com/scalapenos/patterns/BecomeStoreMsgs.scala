@@ -4,8 +4,8 @@ import scala.util._
 import akka.actor._
 
 class MyBecomeActor2 extends Actor {
-  import AsyncLib._
-  import MyActor._
+  import AsyncJobsProcessing._
+  import JobActor._
   import context._
 
   override def supervisorStrategy: SupervisorStrategy = SupervisorStrategy.stoppingStrategy
@@ -13,13 +13,13 @@ class MyBecomeActor2 extends Actor {
   private[this] def emptyVector = Vector.empty[(ActorRef, Any)]
   private[this] var messages = emptyVector
 
-  self ! Init
+  self ! Initialize
 
   def receive: Receive = uninitialized
 
   def uninitialized: Receive = {
-    case Init => {
-      initializeLib.onComplete {
+    case Initialize => {
+      initSomeStuff.onComplete {
         case Success(lib) => {
           val child = actorOf(Props[MyChildLib], "the-one-child")
           watch(child)
@@ -48,11 +48,11 @@ class MyBecomeActor2 extends Actor {
       // in case the child is stopped you need to switch back to uninitialized
       // or kill yourself
       become(uninitialized)
-      self ! Init  // or schedule to self.
+      self ! Initialize  // or schedule to self.
     }
   }
 
-  case class InitializedLib(lib: Lib)
+  case class InitializedLib(lib: Stuff)
 
   private class MyChildLib extends Actor {
     def receive: Receive = uninitialized
@@ -61,8 +61,8 @@ class MyBecomeActor2 extends Actor {
       case InitializedLib(lib) => context.become(initialized(lib))
     }
 
-    def initialized(lib: Lib): Receive = {
-      case Request(value) => lib.doSomeAsyncStuff
+    def initialized(lib: Stuff): Receive = {
+      case Request(value) => lib.processJob
       // you could even respond here since parent forwards.
       // in the case an exception happens the parent stops the actor.
     }

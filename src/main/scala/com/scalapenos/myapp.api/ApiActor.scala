@@ -9,9 +9,9 @@ object ApiActor {
   def name = "api"
 }
 
-class ApiActor extends Actor
-                  with HttpService {
+class ApiActor extends Actor with HttpService {
 
+  def actorRefFactory: ActorRefFactory = context
   def receive = runRoute(routes)
 
   def routes = {

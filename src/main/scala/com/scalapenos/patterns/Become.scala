@@ -4,31 +4,32 @@ import scala.concurrent.Future
 import scala.util._
 
 import akka.actor._
+import com.scalapenos.myapp.api.JobResult
+import AsyncJobsProcessing._
 
 
-object MyActor {
-  case object Init
+object JobActor {
+  case object Initialize
   case class InitializationFailure(e:Throwable)
   case class InitializationException(message:String, e:Throwable) extends Exception(message, e)
 
-  case class Request(value:String)
+  case class Job(name:String)
 }
 
-class MyActor extends Actor {
-  import AsyncLib._
-  import MyActor._
+class JobActor extends Actor {
+  import JobActor._
 
   import context._
 
-  self ! Init
+  self ! Initialize
 
   def receive: Receive = uninitialized
 
   def uninitialized: Receive = {
 
-    case Init => {
-      initializeLib.onComplete {
-        case Success(lib) => become(initialized(lib))
+    case Initialize => {
+      initSomeStuff.onComplete {
+        case Success(stuff) => become(initialized(stuff))
         case Failure(e)   => self ! InitializationFailure(e)
       }
     }
@@ -36,18 +37,19 @@ class MyActor extends Actor {
     case _ => // ignore
   }
 
-  def initialized(lib:Lib): Receive = {
-    case msg:Request => lib.doSomeAsyncStuff
+  def initialized(stuff: Stuff): Receive = {
+    case job: Job => stuff.processJob(job)
   }
 }
 
 
-object AsyncLib {
-  trait Lib {
-    def doSomeAsyncStuff:Future[Int]
+object AsyncJobsProcessing {
+  import JobActor.Job
+  trait Stuff {
+    def processJob(job: Job):Future[JobResult]
   }
 
-  def initializeLib: Future[Lib] = Future.successful(new Lib { def doSomeAsyncStuff = Future.successful(1)})
+  def initSomeStuff: Future[Stuff] = Future.successful(new Stuff { def processJob(job:Job) = Future.successful(1)})
 }
 
 

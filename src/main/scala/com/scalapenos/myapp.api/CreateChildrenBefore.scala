@@ -16,6 +16,7 @@ object ApiActor {
 
 class ApiActor extends Actor
                   with HttpService {
+  def actorRefFactory: ActorRefFactory = context
 
   val processJob = context.actorOf(Props[ProcessJob], "job")
 

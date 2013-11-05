@@ -19,6 +19,7 @@ class ApiActor extends Actor
                   with HttpService
                   with ActorContextCreationSupport
                   with ActorExecutionContextSupport {
+  def actorRefFactory: ActorRefFactory = context
 
   val processJob = createChild(Props[ProcessJob], "job")
 
