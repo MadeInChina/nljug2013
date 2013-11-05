@@ -1,13 +1,10 @@
-package com.scalapenos.myapp
-package api
+package com.scalapenos.myapp.api
 
-import akka.actor.ActorSystem
 import akka.io.IO
-
 import spray.can.Http
+import akka.actor.ActorSystem
 
-
-object Main extends App {
+object Main {
   implicit val system = ActorSystem("my-app-api")
 
   val api = system.actorOf(ApiActor.props, ApiActor.name)

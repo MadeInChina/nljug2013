@@ -20,7 +20,7 @@ scalacOptions := Seq("-encoding", "utf8",
                      "-Xlog-reflective-calls"
                     )
 
-mainClass := Some("com.scalapenos.myapp.api.Main")
+mainClass := Some("com.scalapenos.myapp.api.Boot")
 
 resolvers ++= Seq("Sonatype Releases"   at "http://oss.sonatype.org/content/repositories/releases",
                   "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
