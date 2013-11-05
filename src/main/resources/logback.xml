@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.out</target>
+    <encoder>
+      <!-- Heroku layout, since Heroku already provides the timestamp info. -->
+      <pattern>%-6level[%logger{0}]: %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="akka" level="${LOGLEVEL_AKKA:-INFO}" />
+  <logger name="spray" level="${LOGLEVEL_SPRAY:-INFO}" />
+
+  <logger name="com.scalapenos" level="${LOGLEVEL_APP:-INFO}" />
+
+  <root level="${LOGLEVEL_ROOT:-INFO}">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+</configuration>
