@@ -30,10 +30,10 @@ class JobActor extends Actor {
     case Initialize => {
       initSomeStuff.onComplete {
         case Success(stuff) => become(initialized(stuff))
-        case Failure(e)   => self ! InitializationFailure(e)
+        case Failure(e)     => self ! InitializationFailure(e)
       }
     }
-    case InitializationFailure(e)  => throw e
+    case InitializationFailure(e) => throw e
     case _ => // ignore
   }
 

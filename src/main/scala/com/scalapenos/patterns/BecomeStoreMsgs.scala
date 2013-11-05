@@ -42,7 +42,7 @@ class MyBecomeActor2 extends Actor {
   }
 
   def initialized(child:ActorRef): Receive = {
-    case msg:Request => child forward msg
+    case msg:Job => child forward msg
 
     case Terminated(child) => {
       // in case the child is stopped you need to switch back to uninitialized
@@ -62,7 +62,7 @@ class MyBecomeActor2 extends Actor {
     }
 
     def initialized(lib: Stuff): Receive = {
-      case Request(value) => lib.processJob
+      case job: Job => lib.processJob(job)
       // you could even respond here since parent forwards.
       // in the case an exception happens the parent stops the actor.
     }
