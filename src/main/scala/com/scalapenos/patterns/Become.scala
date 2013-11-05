@@ -33,7 +33,7 @@ class MyActor extends Actor {
       }
     }
     case InitializationFailure(e)  => throw e
-    case _ => // ignore or stash
+    case _ => // ignore
   }
 
   def initialized(lib:Lib): Receive = {

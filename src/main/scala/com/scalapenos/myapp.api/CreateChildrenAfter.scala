@@ -28,7 +28,7 @@ class ApiActor extends Actor
 
   def routes = {
     pathPrefix("api") {
-      path("process") {
+      path("jobs") {
         post {
           entity(as[Job]) { job =>
             val result = processJob.ask(job).mapTo[JobResult]
