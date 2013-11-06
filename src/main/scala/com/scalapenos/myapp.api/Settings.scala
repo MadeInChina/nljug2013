@@ -22,4 +22,5 @@ class Settings(config: Config, extendedSystem: ExtendedActorSystem) extends Exte
 object Settings extends ExtensionId[Settings] with ExtensionIdProvider {
   override def lookup = Settings
   override def createExtension(system: ExtendedActorSystem) = new Settings(system.settings.config, system)
+  def apply(implicit context: ActorContext): Settings = apply(context.system)
 }

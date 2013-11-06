@@ -8,6 +8,7 @@ import akka.pattern.ask
 
 import spray.routing._
 import spray.http.StatusCodes._
+import scala.concurrent.ExecutionContext
 
 
 object ApiActor {
@@ -16,19 +17,17 @@ object ApiActor {
 }
 
 class ApiActor extends HttpServiceActor
-with Routes
-with ActorContextCreationSupport
-with ActorExecutionContextSupport {
-
-  implicit val timeout = Timeout(15 seconds)
+                  with Routes
+                  with ActorContextCreationSupport {
+  def executionContext:ExecutionContext = context.dispatcher
 
   def receive = runRoute(routes)
-
 }
 
-
 trait Routes extends HttpService
-with ActorCreationSupport {
+                with ActorCreationSupport {
+  implicit def executionContext:ExecutionContext
+  implicit val timeout = Timeout(15 seconds)
 
   val processJob = createChild(ProcessJob.props, ProcessJob.name)
 

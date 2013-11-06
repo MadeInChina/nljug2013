@@ -9,12 +9,17 @@ import AsyncJobsProcessing._
 
 
 object JobActor {
+  def props = Props[JobActor]
+  def name = "job"
+
   case object Initialize
   case class InitializationFailure(e:Throwable)
   case class InitializationException(message:String, e:Throwable) extends Exception(message, e)
 
   case class Job(name:String)
 }
+
+
 
 class JobActor extends Actor {
   import JobActor._
